@@ -1,5 +1,6 @@
 package eu.smogura.panama.io.posix;
 
+import eu.smogura.panama.io.posix.SpinLockQueue.Entry;
 import eu.smogura.panama.io.posix.internal.posix_io_lnx_h;
 import eu.smogura.panama.io.posix.internal.sockaddr_in;
 import java.io.IOException;
@@ -42,26 +43,25 @@ public final class PosixSocket extends Socket {
 
     // Allocate address structure
     boolean ok = false;
-    MemorySegment sockAddress = null;
+    Entry<MemorySegment> sockAddMemSygmentEntry = null;
     final var addr = host.getAddress();
     try {
-      sockAddress = PosixIO.POSIX_MEM_POLL.getSegmentByLayout(sockaddr_in.$LAYOUT());
+      sockAddMemSygmentEntry = PosixIO.POSIX_MEM_POLL.getSegmentByLayout(sockaddr_in.$LAYOUT());
+      final var sock_address_ptr = sockAddMemSygmentEntry.value;
       // family is same as domain
       if (host instanceof InetAddress) {
-        sockaddr_in.sin_family$set(sockAddress, domain);
-        sockaddr_in.sin_port$set(sockAddress, Short.reverseBytes((short) port));
-        for (int i=0; i < 4; i++) {
-          sockaddr_in.sin_addr$slice(sockAddress).copyFrom(MemorySegment.ofArray(addr));
-        }
+        sockaddr_in.sin_family$set(sock_address_ptr, domain);
+        sockaddr_in.sin_port$set(sock_address_ptr, Short.reverseBytes((short) port));
+        sockaddr_in.sin_addr$slice(sock_address_ptr).copyFrom(MemorySegment.ofArray(addr));
       }
-      int result = posix_io_lnx_h.connect(fd, sockAddress, (int) sockaddr_in.sizeof());
+      int result = posix_io_lnx_h.connect(fd, sock_address_ptr, (int) sockaddr_in.sizeof());
       if (result != 0) {
         throw new IOException("" + PosixBindings.errno());
       }
       ok = true;
     } finally {
-      if (sockAddress != null) {
-        PosixIO.POSIX_MEM_POLL.putSegment(sockAddress);
+      if (sockAddMemSygmentEntry != null) {
+        PosixIO.POSIX_MEM_POLL.putSegment(sockAddMemSygmentEntry);
       }
       if (!ok) {
         try {
