@@ -6,14 +6,14 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
 import java.nio.ByteOrder;
 import jdk.incubator.foreign.*;
-import static jdk.incubator.foreign.CLinker.*;
+import static jdk.incubator.foreign.ValueLayout.*;
 public class in6_addr {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
+    static final  GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
         MemoryLayout.unionLayout(
-            MemoryLayout.sequenceLayout(16, C_CHAR).withName("__u6_addr8"),
-            MemoryLayout.sequenceLayout(8, C_SHORT).withName("__u6_addr16"),
-            MemoryLayout.sequenceLayout(4, C_INT).withName("__u6_addr32")
+            MemoryLayout.sequenceLayout(16, Constants$root.C_CHAR$LAYOUT).withName("__u6_addr8"),
+            MemoryLayout.sequenceLayout(8, Constants$root.C_SHORT$LAYOUT).withName("__u6_addr16"),
+            MemoryLayout.sequenceLayout(4, Constants$root.C_INT$LAYOUT).withName("__u6_addr32")
         ).withName("__in6_u")
     ).withName("in6_addr");
     public static MemoryLayout $LAYOUT() {
@@ -21,10 +21,10 @@ public class in6_addr {
     }
     public static class __in6_u {
 
-        static final MemoryLayout __in6_u$union$LAYOUT = MemoryLayout.unionLayout(
-            MemoryLayout.sequenceLayout(16, C_CHAR).withName("__u6_addr8"),
-            MemoryLayout.sequenceLayout(8, C_SHORT).withName("__u6_addr16"),
-            MemoryLayout.sequenceLayout(4, C_INT).withName("__u6_addr32")
+        static final  GroupLayout __in6_u$union$LAYOUT = MemoryLayout.unionLayout(
+            MemoryLayout.sequenceLayout(16, Constants$root.C_CHAR$LAYOUT).withName("__u6_addr8"),
+            MemoryLayout.sequenceLayout(8, Constants$root.C_SHORT$LAYOUT).withName("__u6_addr16"),
+            MemoryLayout.sequenceLayout(4, Constants$root.C_INT$LAYOUT).withName("__u6_addr32")
         );
         public static MemoryLayout $LAYOUT() {
             return __in6_u.__in6_u$union$LAYOUT;
@@ -40,12 +40,12 @@ public class in6_addr {
         }
         public static long sizeof() { return $LAYOUT().byteSize(); }
         public static MemorySegment allocate(SegmentAllocator allocator) { return allocator.allocate($LAYOUT()); }
-        public static MemorySegment allocate(ResourceScope scope) { return allocate(SegmentAllocator.ofScope(scope)); }
         public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
             return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
         }
+        public static MemorySegment allocate(ResourceScope scope) { return allocate(SegmentAllocator.nativeAllocator(scope)); }
         public static MemorySegment allocateArray(int len, ResourceScope scope) {
-            return allocateArray(len, SegmentAllocator.ofScope(scope));
+            return allocateArray(len, SegmentAllocator.nativeAllocator(scope));
         }
         public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) { return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope); }
     }
@@ -55,12 +55,12 @@ public class in6_addr {
     }
     public static long sizeof() { return $LAYOUT().byteSize(); }
     public static MemorySegment allocate(SegmentAllocator allocator) { return allocator.allocate($LAYOUT()); }
-    public static MemorySegment allocate(ResourceScope scope) { return allocate(SegmentAllocator.ofScope(scope)); }
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
+    public static MemorySegment allocate(ResourceScope scope) { return allocate(SegmentAllocator.nativeAllocator(scope)); }
     public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
+        return allocateArray(len, SegmentAllocator.nativeAllocator(scope));
     }
     public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) { return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope); }
 }

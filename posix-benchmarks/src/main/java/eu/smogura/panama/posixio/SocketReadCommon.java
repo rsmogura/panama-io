@@ -31,30 +31,20 @@
 
 package eu.smogura.panama.posixio;
 
+import org.openjdk.jmh.annotations.*;
+
+import javax.net.ServerSocketFactory;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import javax.net.ServerSocketFactory;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.Measurement;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
-import org.openjdk.jmh.annotations.TearDown;
-import org.openjdk.jmh.annotations.Timeout;
-import org.openjdk.jmh.annotations.Warmup;
+import java.util.concurrent.*;
 
 @State(Scope.Thread)
 @Fork(jvmArgsPrepend = {
-    "--enable-native-access", "eu.smogura.panama.io.posix,ALL-UNNAMED"
+    "--enable-native-access=eu.smogura.panama.io.posix,smogura.panama.posix.io,ALL-UNNAMED",
+    "--add-modules=jdk.incubator.foreign"
 },
 value = 3)
 @Warmup(iterations = 3, time = 1)

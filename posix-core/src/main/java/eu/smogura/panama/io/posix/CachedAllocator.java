@@ -37,8 +37,7 @@ public class CachedAllocator /* implements SegmentAllocator */ {
     var segment = segmentDequeue.poll();
     if (segment == null) {
       final var allocationSize = 1 << bitBound;
-      final var memoryAddress = CLinker.allocateMemory(allocationSize);
-      segment = memoryAddress.asSegment(allocationSize, ResourceScope.globalScope());
+      segment = MemorySegment.allocateNative(allocationSize, ResourceScope.globalScope());
     }
 
     return segment;

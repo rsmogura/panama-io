@@ -6,13 +6,18 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
 import java.nio.ByteOrder;
 import jdk.incubator.foreign.*;
-import static jdk.incubator.foreign.CLinker.*;
+import static jdk.incubator.foreign.ValueLayout.*;
 public class posix_io_lnx_h  {
 
-    static final LibraryLookup[] LIBRARIES = RuntimeHelper.libraries(new String[] {
-    });
-
     /* package-private */ posix_io_lnx_h() {}
+    public static OfByte C_CHAR = Constants$root.C_CHAR$LAYOUT;
+    public static OfShort C_SHORT = Constants$root.C_SHORT$LAYOUT;
+    public static OfInt C_INT = Constants$root.C_INT$LAYOUT;
+    public static OfLong C_LONG = Constants$root.C_LONG_LONG$LAYOUT;
+    public static OfLong C_LONG_LONG = Constants$root.C_LONG_LONG$LAYOUT;
+    public static OfFloat C_FLOAT = Constants$root.C_FLOAT$LAYOUT;
+    public static OfDouble C_DOUBLE = Constants$root.C_DOUBLE$LAYOUT;
+    public static OfAddress C_POINTER = Constants$root.C_POINTER$LAYOUT;
     public static int SOCK_STREAM() {
         return (int)1L;
     }
@@ -33,7 +38,7 @@ public class posix_io_lnx_h  {
     public static int connect ( int __fd,  Addressable __addr,  int __len) {
         var mh$ = RuntimeHelper.requireNonNull(constants$0.connect$MH, "connect");
         try {
-            return (int)mh$.invokeExact(__fd, __addr.address(), __len);
+            return (int)mh$.invokeExact(__fd, __addr, __len);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -55,7 +60,7 @@ public class posix_io_lnx_h  {
     public static long read ( int __fd,  Addressable __buf,  long __nbytes) {
         var mh$ = RuntimeHelper.requireNonNull(constants$0.read$MH, "read");
         try {
-            return (long)mh$.invokeExact(__fd, __buf.address(), __nbytes);
+            return (long)mh$.invokeExact(__fd, __buf, __nbytes);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -66,7 +71,7 @@ public class posix_io_lnx_h  {
     public static long write ( int __fd,  Addressable __buf,  long __n) {
         var mh$ = RuntimeHelper.requireNonNull(constants$0.write$MH, "write");
         try {
-            return (long)mh$.invokeExact(__fd, __buf.address(), __n);
+            return (long)mh$.invokeExact(__fd, __buf, __n);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }
@@ -77,7 +82,7 @@ public class posix_io_lnx_h  {
     public static int open ( Addressable __file,  int __oflag, Object... x2) {
         var mh$ = RuntimeHelper.requireNonNull(constants$0.open$MH, "open");
         try {
-            return (int)mh$.invokeExact(__file.address(), __oflag, x2);
+            return (int)mh$.invokeExact(__file, __oflag, x2);
         } catch (Throwable ex$) {
             throw new AssertionError("should not reach here", ex$);
         }

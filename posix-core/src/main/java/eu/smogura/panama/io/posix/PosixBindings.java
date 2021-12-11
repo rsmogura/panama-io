@@ -1,24 +1,23 @@
 package eu.smogura.panama.io.posix;
 
-import jdk.incubator.foreign.CLinker;
-import jdk.incubator.foreign.LibraryLookup;
-import jdk.incubator.foreign.MemoryAccess;
-import jdk.incubator.foreign.MemorySegment;
+import jdk.incubator.foreign.*;
+
+import java.lang.invoke.VarHandle;
 
 public class PosixBindings {
-  private static final MemorySegment ALL_MEM = MemorySegment.globalNativeSegment();
+  private static final MemorySegment errnoSegment;
 
-  private static final long errnoAddress;
-
+  private static VarHandle errno_vh =  ValueLayout.JAVA_INT.varHandle().withInvokeExactBehavior();
   static {
-    final var libraryLookup = LibraryLookup.ofDefault();
-    final var cLinker = CLinker.getInstance();
+//    final var libraryLookup = CLinker.systemCLinker().lookup();
+    final var cLinker = CLinker.systemCLinker();
 
-    errnoAddress = libraryLookup.lookup("errno").get().address().toRawLongValue();
-
+    // XXX This is incorrect! Errno is defined in other way, deep-dive into errno for given platform
+    final var errnoAddress = cLinker.lookup("errno").get().address();
+    errnoSegment = MemorySegment.ofAddress(errnoAddress, ValueLayout.JAVA_INT.byteSize(), ResourceScope.globalScope());
   }
 
   public static int errno() {
-    return MemoryAccess.getIntAtOffset(ALL_MEM, errnoAddress);
+    return (int) errno_vh.get(errnoSegment);
   }
 }

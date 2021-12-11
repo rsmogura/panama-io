@@ -6,64 +6,58 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
 import java.nio.ByteOrder;
 import jdk.incubator.foreign.*;
-import static jdk.incubator.foreign.CLinker.*;
+import static jdk.incubator.foreign.ValueLayout.*;
 class constants$0 {
 
-    static final FunctionDescriptor socket$FUNC = FunctionDescriptor.of(C_INT,
-        C_INT,
-        C_INT,
-        C_INT
+    static final FunctionDescriptor socket$FUNC = FunctionDescriptor.of(Constants$root.C_INT$LAYOUT,
+        Constants$root.C_INT$LAYOUT,
+        Constants$root.C_INT$LAYOUT,
+        Constants$root.C_INT$LAYOUT
     );
     static final MethodHandle socket$MH = RuntimeHelper.downcallHandle(
-        posix_io_lnx_h.LIBRARIES, "socket",
-        "(III)I",
+        "socket",
         constants$0.socket$FUNC, false
     );
-    static final FunctionDescriptor connect$FUNC = FunctionDescriptor.of(C_INT,
-        C_INT,
-        C_POINTER,
-        C_INT
+    static final FunctionDescriptor connect$FUNC = FunctionDescriptor.of(Constants$root.C_INT$LAYOUT,
+        Constants$root.C_INT$LAYOUT,
+        Constants$root.C_POINTER$LAYOUT,
+        Constants$root.C_INT$LAYOUT
     );
     static final MethodHandle connect$MH = RuntimeHelper.downcallHandle(
-        posix_io_lnx_h.LIBRARIES, "connect",
-        "(ILjdk/incubator/foreign/MemoryAddress;I)I",
+        "connect",
         constants$0.connect$FUNC, false
     );
-    static final FunctionDescriptor close$FUNC = FunctionDescriptor.of(C_INT,
-        C_INT
+    static final FunctionDescriptor close$FUNC = FunctionDescriptor.of(Constants$root.C_INT$LAYOUT,
+        Constants$root.C_INT$LAYOUT
     );
     static final MethodHandle close$MH = RuntimeHelper.downcallHandle(
-        posix_io_lnx_h.LIBRARIES, "close",
-        "(I)I",
+        "close",
         constants$0.close$FUNC, false
     );
-    static final FunctionDescriptor read$FUNC = FunctionDescriptor.of(C_LONG,
-        C_INT,
-        C_POINTER,
-        C_LONG
+    static final FunctionDescriptor read$FUNC = FunctionDescriptor.of(Constants$root.C_LONG_LONG$LAYOUT,
+        Constants$root.C_INT$LAYOUT,
+        Constants$root.C_POINTER$LAYOUT,
+        Constants$root.C_LONG_LONG$LAYOUT
     );
     static final MethodHandle read$MH = RuntimeHelper.downcallHandle(
-        posix_io_lnx_h.LIBRARIES, "read",
-        "(ILjdk/incubator/foreign/MemoryAddress;J)J",
+        "read",
         constants$0.read$FUNC, false
     );
-    static final FunctionDescriptor write$FUNC = FunctionDescriptor.of(C_LONG,
-        C_INT,
-        C_POINTER,
-        C_LONG
+    static final FunctionDescriptor write$FUNC = FunctionDescriptor.of(Constants$root.C_LONG_LONG$LAYOUT,
+        Constants$root.C_INT$LAYOUT,
+        Constants$root.C_POINTER$LAYOUT,
+        Constants$root.C_LONG_LONG$LAYOUT
     );
     static final MethodHandle write$MH = RuntimeHelper.downcallHandle(
-        posix_io_lnx_h.LIBRARIES, "write",
-        "(ILjdk/incubator/foreign/MemoryAddress;J)J",
+        "write",
         constants$0.write$FUNC, false
     );
-    static final FunctionDescriptor open$FUNC = FunctionDescriptor.of(C_INT,
-        C_POINTER,
-        C_INT
+    static final FunctionDescriptor open$FUNC = FunctionDescriptor.of(Constants$root.C_INT$LAYOUT,
+        Constants$root.C_POINTER$LAYOUT,
+        Constants$root.C_INT$LAYOUT
     );
     static final MethodHandle open$MH = RuntimeHelper.downcallHandle(
-        posix_io_lnx_h.LIBRARIES, "open",
-        "(Ljdk/incubator/foreign/MemoryAddress;I[Ljava/lang/Object;)I",
+        "open",
         constants$0.open$FUNC, true
     );
 }

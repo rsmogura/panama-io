@@ -6,21 +6,21 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.VarHandle;
 import java.nio.ByteOrder;
 import jdk.incubator.foreign.*;
-import static jdk.incubator.foreign.CLinker.*;
+import static jdk.incubator.foreign.ValueLayout.*;
 public class sockaddr_in {
 
-    static final MemoryLayout $struct$LAYOUT = MemoryLayout.structLayout(
-        C_SHORT.withName("sin_family"),
-        C_SHORT.withName("sin_port"),
+    static final  GroupLayout $struct$LAYOUT = MemoryLayout.structLayout(
+        Constants$root.C_SHORT$LAYOUT.withName("sin_family"),
+        Constants$root.C_SHORT$LAYOUT.withName("sin_port"),
         MemoryLayout.structLayout(
-            C_INT.withName("s_addr")
+            Constants$root.C_INT$LAYOUT.withName("s_addr")
         ).withName("sin_addr"),
-        MemoryLayout.sequenceLayout(8, C_CHAR).withName("sin_zero")
+        MemoryLayout.sequenceLayout(8, Constants$root.C_CHAR$LAYOUT).withName("sin_zero")
     ).withName("sockaddr_in");
     public static MemoryLayout $LAYOUT() {
         return sockaddr_in.$struct$LAYOUT;
     }
-    static final VarHandle sin_family$VH = $struct$LAYOUT.varHandle(short.class, MemoryLayout.PathElement.groupElement("sin_family"));
+    static final VarHandle sin_family$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("sin_family"));
     public static VarHandle sin_family$VH() {
         return sockaddr_in.sin_family$VH;
     }
@@ -36,7 +36,7 @@ public class sockaddr_in {
     public static void sin_family$set(MemorySegment seg, long index, short x) {
         sockaddr_in.sin_family$VH.set(seg.asSlice(index*sizeof()), x);
     }
-    static final VarHandle sin_port$VH = $struct$LAYOUT.varHandle(short.class, MemoryLayout.PathElement.groupElement("sin_port"));
+    static final VarHandle sin_port$VH = $struct$LAYOUT.varHandle(MemoryLayout.PathElement.groupElement("sin_port"));
     public static VarHandle sin_port$VH() {
         return sockaddr_in.sin_port$VH;
     }
@@ -60,12 +60,12 @@ public class sockaddr_in {
     }
     public static long sizeof() { return $LAYOUT().byteSize(); }
     public static MemorySegment allocate(SegmentAllocator allocator) { return allocator.allocate($LAYOUT()); }
-    public static MemorySegment allocate(ResourceScope scope) { return allocate(SegmentAllocator.ofScope(scope)); }
     public static MemorySegment allocateArray(int len, SegmentAllocator allocator) {
         return allocator.allocate(MemoryLayout.sequenceLayout(len, $LAYOUT()));
     }
+    public static MemorySegment allocate(ResourceScope scope) { return allocate(SegmentAllocator.nativeAllocator(scope)); }
     public static MemorySegment allocateArray(int len, ResourceScope scope) {
-        return allocateArray(len, SegmentAllocator.ofScope(scope));
+        return allocateArray(len, SegmentAllocator.nativeAllocator(scope));
     }
     public static MemorySegment ofAddress(MemoryAddress addr, ResourceScope scope) { return RuntimeHelper.asArray(addr, $LAYOUT(), 1, scope); }
 }

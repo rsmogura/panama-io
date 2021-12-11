@@ -1,4 +1,4 @@
-JEXTRACT=/mnt/home/home/radek/Dev/panama-foreign/build/linux-x86_64-server-release/images/jdk/bin/jextract
+JEXTRACT=~/Dev/panama/build/linux-x86_64-server-fastdebug/images/jdk/bin/jextract
 
 DST=src/main/java
 mkdir -p $DST

@@ -59,7 +59,6 @@ public class PollingAllocator /* implements SegmentAllocator */ {
 
   private Entry<MemorySegment> allocateNewEntry(int bitBound) {
     final var allocationSize = 1 << bitBound;
-    final var memoryAddress = CLinker.allocateMemory(allocationSize);
-    return new Entry(memoryAddress.asSegment(allocationSize, ResourceScope.globalScope()));
+    return new Entry(MemorySegment.allocateNative(allocationSize, ResourceScope.globalScope()));
   }
 }

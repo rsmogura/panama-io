@@ -56,7 +56,7 @@ public final class PosixSocket extends Socket {
       }
       int result = posix_io_lnx_h.connect(fd, sock_address_ptr, (int) sockaddr_in.sizeof());
       if (result != 0) {
-        throw new IOException("" + PosixBindings.errno());
+        throw new IOException("" + result + "," + PosixBindings.errno());
       }
       ok = true;
     } finally {

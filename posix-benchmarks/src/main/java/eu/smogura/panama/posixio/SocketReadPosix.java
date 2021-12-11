@@ -1,8 +1,8 @@
 package eu.smogura.panama.posixio;
 
 import eu.smogura.panama.io.posix.PosixSocketFactory;
+
 import java.net.Socket;
-import org.openjdk.jmh.annotations.Fork;
 
 public class SocketReadPosix extends SocketReadCommon {
 
